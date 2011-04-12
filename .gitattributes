@@ -1,5 +1,6 @@
 # .gitattributes
 # Map file extensions to git filters
+#
 # $Id$ 
 
 .gitattributes=rcs-keywords
