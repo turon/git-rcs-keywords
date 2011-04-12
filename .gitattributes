@@ -3,7 +3,7 @@
 #
 # $Id$ 
 
-.gitattributes=rcs-keywords
+*.gitattributes=rcs-keywords
 *.h filter=rcs-keywords
 *.c filter=rcs-keywords
 *.cc filter=rcs-keywords
