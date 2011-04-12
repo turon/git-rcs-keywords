@@ -1,0 +1,10 @@
+# .gitattributes
+# Map file extensions to git filters
+# $Id$ 
+
+.gitattributes=rcs-keywords
+*.h filter=rcs-keywords
+*.c filter=rcs-keywords
+*.cc filter=rcs-keywords
+*.m filter=rcs-keywords
+*.mm filter=rcs-keywords
