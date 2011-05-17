@@ -22,6 +22,10 @@ $path = shift;
 $path =~ /.*\/(.*)/;
 $filename = $1;
 
+if (0 == length($filename)) {
+	$filename = $path;
+}
+
 # Need to grab filename and to use git log for this to be accurate.
 $rev = `git log -- $path | head -n 3`;
 $rev =~ /^Author:\s*(.*)\s*$/m;
