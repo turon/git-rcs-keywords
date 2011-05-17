@@ -38,7 +38,7 @@ $rev =~ /^commit (.*)$/m;
 $ident = $1;
 
 while (<STDIN>) {
-    s/\$Date[^\$]*\$/\$Date: 	$date \$/;
+    s/\$Date[^\$]*\$/\$Date:   $date \$/;
     s/\$Author[^\$]*\$/\$Author: $author \$/;
     s/\$Id[^\$]*\$/\$Id: $filename | $date | $name \$/;
     s/\$File[^\$]*\$/\$File:   $filename \$/;
