@@ -43,6 +43,7 @@ while (<STDIN>) {
     s/\$Id[^\$]*\$/\$Id: $filename | $date | $name \$/;
     s/\$File[^\$]*\$/\$File:   $filename \$/;
     s/\$Source[^\$]*\$/\$Source: $path \$/;
+	s/\$Revision[^\$]*\$/\$Revision: $ident \$/;
 } continue {
     print or die "-p destination: $!\n";
 }
