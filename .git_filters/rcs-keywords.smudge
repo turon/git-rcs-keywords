@@ -38,10 +38,10 @@ $rev =~ /^commit (.*)$/m;
 $ident = $1;
 
 while (<STDIN>) {
-    s/\$Date[^\$]*\$/\$Date:   $date \$/;
+    s/\$Date[^\$]*\$/\$Date: 	$date \$/;
     s/\$Author[^\$]*\$/\$Author: $author \$/;
     s/\$Id[^\$]*\$/\$Id: $filename | $date | $name \$/;
-    s/\$File[^\$]*\$/\$File:   $file \$/;
+    s/\$File[^\$]*\$/\$File:   $filename \$/;
     s/\$Source[^\$]*\$/\$Source: $path \$/;
 } continue {
     print or die "-p destination: $!\n";
