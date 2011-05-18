@@ -22,6 +22,10 @@ $path = shift;
 $path =~ /.*\/(.*)/;
 $filename = $1;
 
+if (0 == length($filename)) {
+	$filename = $path;
+}
+
 # Need to grab filename and to use git log for this to be accurate.
 $rev = `git log -- $path | head -n 3`;
 $rev =~ /^Author:\s*(.*)\s*$/m;
@@ -37,8 +41,9 @@ while (<STDIN>) {
     s/\$Date[^\$]*\$/\$Date:   $date \$/;
     s/\$Author[^\$]*\$/\$Author: $author \$/;
     s/\$Id[^\$]*\$/\$Id: $filename | $date | $name \$/;
-    s/\$File[^\$]*\$/\$File:   $file \$/;
+    s/\$File[^\$]*\$/\$File:   $filename \$/;
     s/\$Source[^\$]*\$/\$Source: $path \$/;
+	s/\$Revision[^\$]*\$/\$Revision: $ident \$/;
 } continue {
     print or die "-p destination: $!\n";
 }

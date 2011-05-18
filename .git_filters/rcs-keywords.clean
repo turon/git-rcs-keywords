@@ -10,3 +10,4 @@ s/\$Date[^\$]*\$/\$Date\$/;
 s/\$Author[^\$]*\$/\$Author\$/; 
 s/\$Source[^\$]*\$/\$Source\$/; 
 s/\$File[^\$]*\$/\$File\$/; 
+s/\$Revision[^\$]*\$/\$Revision\$/;
