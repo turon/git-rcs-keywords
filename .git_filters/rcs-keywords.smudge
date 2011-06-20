@@ -27,6 +27,8 @@ if (0 == length($filename)) {
 }
 
 # Need to grab filename and to use git log for this to be accurate.
+$tag = `git describe --always --tag`;
+chop($tag);
 $rev = `git log -- $path | head -n 3`;
 $rev =~ /^Author:\s*(.*)\s*$/m;
 $author = $1;
@@ -43,7 +45,8 @@ while (<STDIN>) {
     s/\$Id[^\$]*\$/\$Id: $filename | $date | $name \$/;
     s/\$File[^\$]*\$/\$File:   $filename \$/;
     s/\$Source[^\$]*\$/\$Source: $path \$/;
-	s/\$Revision[^\$]*\$/\$Revision: $ident \$/;
+    s/\$Revision[^\$]*\$/\$Revision: $ident \$/;
+    s/\$Name[^\$]*\$/\$Name: $tag \$/;
 } continue {
     print or die "-p destination: $!\n";
 }
