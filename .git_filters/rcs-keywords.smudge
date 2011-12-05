@@ -36,6 +36,9 @@ $rev =~ /^Date:\s*(.*)\s*$/m;
 $date = $1;
 $rev =~ /^commit (.*)$/m;
 $ident = $1;
+$com = `git log -1 | head -n 1`;
+$com =~ /^commit (.*)$/m;
+$commit = $1;
 
 while (<STDIN>) {
     s/\$Date[^\$]*\$/\$Date:   $date \$/;
@@ -44,6 +47,7 @@ while (<STDIN>) {
     s/\$File[^\$]*\$/\$File:   $filename \$/;
     s/\$Source[^\$]*\$/\$Source: $path \$/;
 	s/\$Revision[^\$]*\$/\$Revision: $ident \$/;
+	s/\$Commit[^\$]*\$/\$Commit: $commit \$/;
 } continue {
     print or die "-p destination: $!\n";
 }
