@@ -12,3 +12,4 @@ s/\$Source[^\$]*\$/\$Source\$/;
 s/\$File[^\$]*\$/\$File\$/; 
 s/\$Revision[^\$]*\$/\$Revision\$/;
 s/\$Commit[^\$]*\$/\$Commit\$/;
+s/\$Name[^\$]*\$/\$Name\$/;
