@@ -2,11 +2,15 @@
 #
 # @brief  Git filter to implement rcs keyword expansion as seen in cvs and svn.
 # @author Martin Turon
+# @author Kimmo R. M. Hovi
 #
 # Usage:
 #    .git_filter/rcs-keywords.smudge file_path < file_contents
+#
+# Note that you need to have the 'none' filter in place, otherwise that will garble these filter files!
 # 
 # To add keyword expansion:
+#    <project>/.gitattributes                    - rcs-keywords* filter=none
 #    <project>/.gitattributes                    - *.c filter=rcs-keywords
 #    <project>/.git_filters/rcs-keywords.smudge  - copy this file to project
 #    <project>/.git_filters/rcs-keywords.clean   - copy companion to project
@@ -15,8 +19,12 @@
 # [filter "rcs-keywords"]
 #	clean  = .git_filters/rcs-keywords.clean
 #	smudge = .git_filters/rcs-keywords.smudge %f
+# [filter "none"]
+#	clean  = cat
+#	smudge = cat
 #
 # Copyright (c) 2009-2011 Turon Technologies, Inc.  All rights reserved.
+# Copyright (c) 2012 Fair Warning, Inc.
 
 $path = shift;
 $path =~ /.*\/(.*)/;
@@ -27,6 +35,8 @@ if (0 == length($filename)) {
 }
 
 # Need to grab filename and to use git log for this to be accurate.
+$tag = `git describe --always --tag`;
+chop($tag);
 $rev = `git log -- $path | head -n 3`;
 $rev =~ /^Author:\s*(.*)\s*$/m;
 $author = $1;
@@ -36,6 +46,9 @@ $rev =~ /^Date:\s*(.*)\s*$/m;
 $date = $1;
 $rev =~ /^commit (.*)$/m;
 $ident = $1;
+$com = `git log -1 | head -n 1`;
+$com =~ /^commit (.*)$/m;
+$commit = $1;
 
 while (<STDIN>) {
     s/\$Date[^\$]*\$/\$Date:   $date \$/;
@@ -45,6 +58,8 @@ while (<STDIN>) {
     s/\$Source[^\$]*\$/\$Source: $path \$/;
     s/\$Revision[^\$]*\$/\$Revision: $ident \$/;
     s/\$Header[^\$]*\$/\$Header: $path $ident $date $name \$/;
+    s/\$Commit[^\$]*\$/\$Commit: $commit \$/;
+    s/\$Name[^\$]*\$/\$Name: $tag \$/;
 } continue {
     print or die "-p destination: $!\n";
 }
