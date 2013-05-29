@@ -6,3 +6,4 @@
 *.cc filter=rcs-keywords
 *.m filter=rcs-keywords
 *.mm filter=rcs-keywords
+*.pas filter=rcs-keywords

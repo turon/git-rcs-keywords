@@ -7,7 +7,8 @@ standard RCS tags to your git projects:
 	 $File$
 	 $Author$
 	 $Revision$
-	 $Source$
+	 $Rev$
+	 $File$
 
 The mechanism used are filters.  The smudge filter is run on checkout, and the
 clean filter is run on commit.  The tags are only expanded on the local disk,
