@@ -27,7 +27,7 @@ if (0 == length($filename)) {
 }
 
 # Need to grab filename and to use git log for this to be accurate.
-$rev = `git log -n 1 -- $path | head -n 3`;
+$rev = `git log -n 1 --date=iso -- $path`;
 $rev =~ /^Author:\s*(.*?)\s*$/m;
 $author = $1;
 $author =~ /\s*(.*?)\s*<.*/;
@@ -36,14 +36,16 @@ $rev =~ /^Date:\s*(.*?)\s*$/m;
 $date = $1;
 $rev =~ /^commit (.*)$/m;
 $ident = $1;
+$rev =~ /^    git-svn-id.*@([0-9]+)/m;
+$svnrev = $1 || $ident;
 
 while (<STDIN>) {
     s/\$Date[^\$]*\$/\$Date:   $date \$/;
     s/\$Author[^\$]*\$/\$Author: $author \$/;
-    s/\$Id[^\$]*\$/\$Id: $filename | $date | $name \$/;
+    s/\$Id[^\$]*\$/\$Id: $filename $svnrev $date $name \$/;
     s/\$File[^\$]*\$/\$File:   $filename \$/;
     s/\$Source[^\$]*\$/\$Source: $path \$/;
-	s/\$Revision[^\$]*\$/\$Revision: $ident \$/;
+	s/\$Revision[^\$]*\$/\$Revision: $svnrev \$/;
 } continue {
     print or die "-p destination: $!\n";
 }
