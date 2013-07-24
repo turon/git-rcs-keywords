@@ -5,9 +5,9 @@
 #
 # Copyright (c) 2009-2011 Turon Technologies, Inc.  All rights reserved.
 
-s/\$Id[^\$]*\$/\$Id\$/; 
-s/\$Date[^\$]*\$/\$Date\$/;
-s/\$Author[^\$]*\$/\$Author\$/; 
-s/\$Source[^\$]*\$/\$Source\$/; 
-s/\$File[^\$]*\$/\$File\$/; 
-s/\$Revision[^\$]*\$/\$Revision\$/;
+s/\$Id(|: [^\$]*)\$/\$Id\$/; 
+s/\$Date(|: [^\$]*)\$/\$Date\$/;
+s/\$Author(|: [^\$]*)\$/\$Author\$/; 
+s/\$Source(|: [^\$]*)\$/\$Source\$/; 
+s/\$File(|: [^\$]*)\$/\$File\$/; 
+s/\$Revision(|: [^\$]*)\$/\$Revision\$/;
