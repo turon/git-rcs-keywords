@@ -27,7 +27,7 @@ if (0 == length($filename)) {
 }
 
 # Need to grab filename and to use git log for this to be accurate.
-$rev = `git log -- $path | head -n 3`;
+$rev = `git log --date=iso -- $path | head -n 3`;
 $rev =~ /^Author:\s*(.*)\s*$/m;
 $author = $1;
 $author =~ /\s*(.*)\s*<.*/;
@@ -36,14 +36,29 @@ $rev =~ /^Date:\s*(.*)\s*$/m;
 $date = $1;
 $rev =~ /^commit (.*)$/m;
 $ident = $1;
+$shortident = substr($ident,0, 6);
 
 while (<STDIN>) {
-    s/\$Date[^\$]*\$/\$Date:   $date \$/;
-    s/\$Author[^\$]*\$/\$Author: $author \$/;
-    s/\$Id[^\$]*\$/\$Id: $filename | $date | $name \$/;
-    s/\$File[^\$]*\$/\$File:   $filename \$/;
-    s/\$Source[^\$]*\$/\$Source: $path \$/;
-	s/\$Revision[^\$]*\$/\$Revision: $ident \$/;
+    s/\$Date(((::)*)[^\$]*)\$/TR("\$Date",$1,$date,$2,"\$")/eo;
+    s/\$Author(((::)*)[^\$]*)\$/TR("\$Author",$1,$author,$2,"\$")/eo;
+    s/\$Id(((::)*)[^\$]*)\$/TR("\$Id",$1,"$filename | $date | $name",$2,"\$")/eo;
+    s/\$File(((::)*)[^\$]*)\$/TR("\$File",$1,$filename,$2,"\$")/eo;
+    s/\$Source(((::)*)[^\$]*)\$/TR("\$Source",$1,$path,$2,"\$")/eo;
+    s/\$Rev(((::)*)[^\$]*)\$/TR("\$Rev",$1,$shortident,$2,"\$")/eo;
+    s/\$Revision(((::)*)[^\$]*)\$/TR("\$Revision",$1,$ident,$2,"\$")/eo;
 } continue {
     print or die "-p destination: $!\n";
+}
+
+sub TR{
+    my ($pre,$from,$to,$fix,$post)=@_;
+    return $pre.$to.$post if($fix eq '');
+
+    $pre.=$fix;
+    if(length($from)<length($to)+length($fix)){
+         $to=substr($to,0,length($from)-length($fix));
+    }else{
+         $to.=' ' x (length($from)-length($to)-length($fix));
+    }
+    return $pre.$to.$post;
 }
