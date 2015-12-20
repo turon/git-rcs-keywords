@@ -5,9 +5,15 @@
 #
 # Copyright (c) 2009-2011 Turon Technologies, Inc.  All rights reserved.
 
-s/\$Id[^\$]*\$/\$Id\$/; 
-s/\$Date[^\$]*\$/\$Date\$/;
-s/\$Author[^\$]*\$/\$Author\$/; 
-s/\$Source[^\$]*\$/\$Source\$/; 
-s/\$File[^\$]*\$/\$File\$/; 
-s/\$Revision[^\$]*\$/\$Revision\$/;
+s/(\$Id)((::)*)([^\$]*)\$/TR($1,$4,$2)/eo;
+s/(\$Date)((::)*)([^\$]*)\$/TR($1,$4,$2)/eo;
+s/(\$Author)((::)*)([^\$]*)\$/TR($1,$4,$2)/eo;
+s/(\$Source)((::)*)([^\$]*)\$/TR($1,$4,$2)/eo;
+s/(\$File)((::)*)([^\$]*)\$/TR($1,$4,$2)/eo;
+s/(\$Rev)((::)*)([^\$]*)\$/TR($1,$4,$2)/eo;
+s/(\$Revision)((::)*)([^\$]*)\$/TR($1,$4,$2)/eo;
+
+sub TR{
+    my ($pre,$from,$fix)=@_;
+    return $pre.$fix.(" " x length($from)).'$';
+}
