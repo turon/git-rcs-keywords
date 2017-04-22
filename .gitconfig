@@ -1,4 +1,3 @@
-
 [alias]
 	co = checkout
 	ci = commit -a
@@ -6,6 +5,9 @@
 # To add keyword expansion:
 # git init
 # cp ~/.gitconfig, <project>/.gitattributes, and <project>/.git_filters
+[filter "none"]
+	clean  = cat
+	smudge = cat
 [filter "rcs-keywords"]
 	clean  = .git_filters/rcs-keywords.clean
 	smudge = .git_filters/rcs-keywords.smudge %f
